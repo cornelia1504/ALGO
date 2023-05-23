@@ -49,7 +49,8 @@ def encode_dna_sequence(sequence):
     return binary_sequence
 
 def main():
-    sequence = "ATTTCCGCCCGTAGAGAGCAAATT"
+    #sequence = "ATTTCCGCCCGTAGAGAGCAAATT"
+    sequence = input('sequence :')
 
     # Transformation de la séquence d'ADN en binaire
     binary_sequence = encode_dna_sequence(sequence)

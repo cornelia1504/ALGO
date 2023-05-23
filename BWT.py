@@ -1,4 +1,4 @@
-def bwt_transform(sequence):
+def hbwt_transform(sequence):
     rotations = [sequence[i:] + sequence[:i] for i in range(len(sequence))]
     sorted_rotations = sorted(rotations)
     bwt_sequence = ''.join(rot[-1] for rot in sorted_rotations)
@@ -6,7 +6,67 @@ def bwt_transform(sequence):
     return bwt_sequence
     # Implémentez ici la transformation BWT de la séquence donnée
     # Retournez la séquence BWT transformée
+    
+# def bwt_transform(sequence):
+#     # Implémentez ici la transformation BWT de la séquence donnée
+#     # Retournez la séquence BWT transformée
+#     assert '$' not in sequence # input sring cannot contain $
+#     sequence = sequence + '$' #add start and end of text marker
+#     table = [sequence[i:] + sequence[i:] for i in range(len(sequence))] #table of rotations of string (a detailler)
+#     print(table)
+#     table = sorted(table)
+#     print(table)
+#     last_colum = [row[-1:] for row in table] #last chr for each row ??
+#     bwt = ''.join(last_colum)
+#     print('\n', bwt)
+#     return table
 
+def bwt_transform(sequence):
+    assert '$' not in sequence  # L'entrée ne peut pas contenir le symbole $
+
+    # Ajouter le marqueur de début et de fin de texte
+    sequence = sequence + '$'
+
+    # Créer la table des rotations
+    table = [sequence[i:] + sequence[:i] for i in range(len(sequence))]
+
+    # Trier la table des rotations
+    table = sorted(table)
+
+    # Récupérer la dernière colonne de la table (symboles BWT)
+    bwt = ''.join(row[-1] for row in table)
+
+    return bwt
+
+def detransform_bwt(bwt_sequence):
+    occurrences = {}
+    sorted_bwt = sorted(bwt_sequence)
+    index_map = {}
+    result = ""
+
+    for i, char in enumerate(bwt_sequence):
+        if char not in occurrences:
+            occurrences[char] = 0
+            index_map[char] = []
+
+        occurrences[char] += 1
+        index_map[char].append(i)
+
+    char = "$"
+
+    while char != "$":
+        result = char + result
+        char_occurrences = occurrences[char]
+        char_index = index_map[char][char_occurrences - 1]
+        char = sorted_bwt[char_index]
+
+    return result
+
+
+
+
+
+    
 def Hinverse_bwt_transform(bwt_sequence):
     table = [''] * len(bwt_sequence)
     for _ in range(len(bwt_sequence)):
@@ -59,4 +119,13 @@ def main():
 # Votre code principal pour l'interaction avec l'utilisateur et l'appel des fonctions BWT
 
 if __name__ == "__main__":
-    main()
+    sequence = "ATTTCCGCCCGTAGAGAGCAAATT"
+    bwt_sequence = bwt_transform(sequence)
+    print("Transformée de BWT :", bwt_sequence)
+    bwt_sequence = "TCATGGA$GGTCCCAAACCTGTATA"
+    print('**********************')
+    detransformed_sequence = detransform_bwt(bwt_sequence)
+    print("Détransformée:")
+    print(detransformed_sequence)
+
+    #main()
