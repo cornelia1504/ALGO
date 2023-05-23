@@ -1,25 +1,4 @@
-def hbwt_transform(sequence):
-    rotations = [sequence[i:] + sequence[:i] for i in range(len(sequence))]
-    sorted_rotations = sorted(rotations)
-    bwt_sequence = ''.join(rot[-1] for rot in sorted_rotations)
-    print( 'bwt_sequence : ', bwt_sequence)
-    return bwt_sequence
-    # Implémentez ici la transformation BWT de la séquence donnée
-    # Retournez la séquence BWT transformée
-    
-# def bwt_transform(sequence):
-#     # Implémentez ici la transformation BWT de la séquence donnée
-#     # Retournez la séquence BWT transformée
-#     assert '$' not in sequence # input sring cannot contain $
-#     sequence = sequence + '$' #add start and end of text marker
-#     table = [sequence[i:] + sequence[i:] for i in range(len(sequence))] #table of rotations of string (a detailler)
-#     print(table)
-#     table = sorted(table)
-#     print(table)
-#     last_colum = [row[-1:] for row in table] #last chr for each row ??
-#     bwt = ''.join(last_colum)
-#     print('\n', bwt)
-#     return table
+""" """
 
 def bwt_transform(sequence):
     assert '$' not in sequence  # L'entrée ne peut pas contenir le symbole $
@@ -39,28 +18,18 @@ def bwt_transform(sequence):
     return bwt
 
 def detransform_bwt(bwt_sequence):
-    occurrences = {}
-    sorted_bwt = sorted(bwt_sequence)
-    index_map = {}
-    result = ""
-
-    for i, char in enumerate(bwt_sequence):
-        if char not in occurrences:
-            occurrences[char] = 0
-            index_map[char] = []
-
-        occurrences[char] += 1
-        index_map[char].append(i)
-
-    char = "$"
-
-    while char != "$":
-        result = char + result
-        char_occurrences = occurrences[char]
-        char_index = index_map[char][char_occurrences - 1]
-        char = sorted_bwt[char_index]
-
-    return result
+    table = [''] * len(bwt_sequence)
+    for i in range(len(bwt_sequence)):
+        table = [bwt_sequence[i] + table[i] for i in range(len(bwt_sequence))] #add column of r ??
+        #print('unsorted = ', table)
+        table = sorted(table)
+        #print('sorted = ', table)
+        
+    inverse_bwt = [row for row in table if row.endswith("$")][0] #find the correct row (ending with $)
+    inverse_bwt = inverse_bwt.rstrip('$') #get rid of start and end markers
+    print(inverse_bwt)
+    
+    return inverse_bwt
 
 
 
@@ -120,12 +89,11 @@ def main():
 
 if __name__ == "__main__":
     sequence = "ATTTCCGCCCGTAGAGAGCAAATT"
+    print('sequence originale :', sequence)
     bwt_sequence = bwt_transform(sequence)
     print("Transformée de BWT :", bwt_sequence)
-    bwt_sequence = "TCATGGA$GGTCCCAAACCTGTATA"
-    print('**********************')
-    detransformed_sequence = detransform_bwt(bwt_sequence)
-    print("Détransformée:")
-    print(detransformed_sequence)
+    print("\n Détransformée:", detransform_bwt(bwt_sequence))
+    # print("Détransformée:")
+    # print(detransformed_sequence)
 
     #main()
