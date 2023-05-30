@@ -7,15 +7,22 @@ def bwt_transform(sequence):
     sequence = sequence + '$'
 
     # Créer la table des rotations
-    table = [sequence[i:] + sequence[:i] for i in range(len(sequence))]
-
+    table_no_sorted = [sequence[i:] + sequence[:i] for i in range(len(sequence))]
+    #print(table_no_sorted)
     # Trier la table des rotations
-    table = sorted(table)
+    table = sorted(table_no_sorted)
+    #print('\n' ,table)
 
     # Récupérer la dernière colonne de la table (symboles BWT)
     bwt = ''.join(row[-1] for row in table)
 
-    return bwt
+    return bwt , table_no_sorted
+
+def display(sequence):
+    table_no_sorted = bwt_transform(sequence)[1]
+    for i, bwt in enumerate(table_no_sorted):
+        print(f"Step {i + 1}: {bwt}")
+        input("Press Enter to continue...")
 
 def detransform_bwt(bwt_sequence):
     table = [''] * len(bwt_sequence)
@@ -74,7 +81,7 @@ def main():
     sequence = "ATTTCCGCCCGTAGAGAGCAAATT"
 
     # Transformation BWT
-    bwt_sequence = bwt_transform(sequence)
+    bwt_sequence = bwt_transform(sequence)[0]
     print("BWT sequence:", bwt_sequence)
 
     # Transformation inverse de BWT
@@ -90,10 +97,11 @@ def main():
 if __name__ == "__main__":
     sequence = "ATTTCCGCCCGTAGAGAGCAAATT"
     print('sequence originale :', sequence)
-    bwt_sequence = bwt_transform(sequence)
+    bwt_sequence = bwt_transform(sequence)[0]
     print("Transformée de BWT :", bwt_sequence)
+    display(sequence)
     print("\n Détransformée:", detransform_bwt(bwt_sequence))
     # print("Détransformée:")
     # print(detransformed_sequence)
-
+    #display_bwt_transformation(sequence)
     #main()

@@ -37,6 +37,9 @@ def huffman_encode(sequence):
 
     # Encoder la séquence d'ADN en utilisant les codes binaires Huffman
     encoded_sequence = "".join(code[char] for char in sequence)
+    
+    print('tree : ', huffman_tree)
+    print('code associe : ', code)
 
     return encoded_sequence
 
@@ -50,7 +53,8 @@ def encode_dna_sequence(sequence):
 
 def main():
     #sequence = "ATTTCCGCCCGTAGAGAGCAAATT"
-    sequence = input('sequence :')
+    #sequence = input('sequence :')
+    sequence = 'ATTTCCGCCCGTAGAGAGCAAATT'
 
     # Transformation de la séquence d'ADN en binaire
     binary_sequence = encode_dna_sequence(sequence)
@@ -68,4 +72,5 @@ def encode_character_sequence(character_sequence):
     # Retournez le binaire encodé
 
 if __name__ == "__main__":
+    
     main()

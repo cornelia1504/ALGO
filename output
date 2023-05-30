@@ -1,0 +1,18 @@
+Séquence originale :
+ATTTCCGCCCGTAGAGAGCAAATT
+Transformée de BWT : 
+TCATGGA$GGTCCCAAACCTGTATA
+Détransformée:
+ATTTCCGCCCGTAGAGAGCAAATT
+Arbre de huffman :
+[['A'], [['T'], [[['$'], ['G']], ['C']]]]
+Code associé:
+{'A': '0', 'T': '10', '$': '1100', 'G': '1101', 'C': '111'}
+Encodage de la transformée:
+1011101011011101011001101110110111111111000111111101101100100
+Compressage en terme de chaîne de charactère:
+ºÝfíÿÛ ø
+Décompressage en binaire:
+1011101011011101011001101110110111111111000111111101101100100
+Décompressage en acide nucleique:
+TCATGGA$GGTCCCAAACCTGTATA
